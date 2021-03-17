@@ -11,13 +11,19 @@ public class Animal {
     private boolean isHungry;
     private boolean isIll;
     private Date date;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private String reportFeeding = "";
     private String name;
     public Animal(String[] illnesses, String name) {
         this.illnesses = Arrays.copyOf(illnesses, illnesses.length);
         isIll = illnesses.length != 0;
         this.isHungry = true;
-
+        this.name = name;
+        this.date = new Date();
     }
 
     public String getName() {

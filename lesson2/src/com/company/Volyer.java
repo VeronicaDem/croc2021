@@ -101,6 +101,7 @@ public class Volyer {
         Animal [] animals = new Animal[this.animals.length - 1];
         int j = 0;
         for(int i = 0; i < this.animals.length; i++) {
+
             if (this.animals[i].getName().equals(name)) {
                 continue;
             }
