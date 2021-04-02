@@ -1,7 +1,7 @@
-package ru.croc.task.task;
+package ru.croc.task.service;
 
-import ru.croc.task.enums.Status;
-import ru.croc.task.task.Task;
+import ru.croc.task.models.enums.Status;
+import ru.croc.task.models.task.Task;
 
 import java.io.Serializable;
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Задачи.
  */
-public class Tasks implements Serializable {
+public class TasksService implements Serializable {
     /**
      * Стандартно для использования ObjectInput/OutputStream.
      */
@@ -23,7 +23,7 @@ public class Tasks implements Serializable {
      */
     private Map<Integer, Integer> idToIndex;
 
-    public Tasks() {
+    public TasksService() {
         tasks = new ArrayList<>();
         idToIndex = new HashMap<>();
     }
@@ -76,7 +76,7 @@ public class Tasks implements Serializable {
      *  @param id код редактируемой задачи
      *  @param name наименование
      *  @return отредактированная задача
-      * @throws Exception нет такой задачи
+     * @throws Exception нет такой задачи
      */
     public Task changeTaskName(int id, String name) throws Exception{
         if(idToIndex.get(id) == null) throw new Exception("Нет такой задачи");
@@ -135,6 +135,7 @@ public class Tasks implements Serializable {
         if(idToIndex.get(id) == null) return false;
         Task task = tasks.get(idToIndex.get(id));
         tasks.remove(task);
+        idToIndex.remove(id);
         return true;
     }
 

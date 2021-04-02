@@ -1,10 +1,8 @@
-package ru.croc.task.menu;
+package ru.croc.task.models.menu;
 
-import ru.croc.task.enums.Status;
-import ru.croc.task.task.Task;
-import ru.croc.task.task.Tasks;
+import ru.croc.task.models.enums.Status;
+import ru.croc.task.service.TasksService;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 
@@ -22,10 +20,10 @@ public class Menu {
 
     /**
      * Добавление задачи
-     * @param tasks задачи
+     * @param tasksService задачи
      * @throws Exception Введите число от 1 до 3 включительно
      */
-    public static void addTask(Tasks tasks) throws Exception{
+    public static void addTask(TasksService tasksService) throws Exception{
         System.out.println("Введите наименование:");
         String name = scanner.nextLine();
         System.out.println("Введите описание:");
@@ -37,16 +35,16 @@ public class Menu {
         int statusNumber = scanner.nextInt();
         Status status;
         status = choiceStatus(statusNumber);
-        tasks.addTask(name, description, executor, status);
+        tasksService.addTask(name, description, executor, status);
     }
 
     /**
      * Изменение задачи
-     * @param tasks задачи
+     * @param tasksService задачи
      * @throws Exception Введите число от 1 до 5; Нет такой задачи
      */
-    public static void changeTask(Tasks tasks) throws Exception{
-        showTasks(tasks);
+    public static void changeTask(TasksService tasksService) throws Exception{
+        showTasks(tasksService);
         System.out.println("Введите код задачи:");
         int id = scanner.nextInt();
         System.out.println("По какому полю будете менять:");
@@ -63,24 +61,24 @@ public class Menu {
             case 1:
                 System.out.println("Введите имя:");
                 name = scanner.nextLine();
-                tasks.changeTaskName(id, name);
+                tasksService.changeTaskName(id, name);
                 break;
             case 2:
                 System.out.println("Введите описание:");
                 description = scanner.nextLine();
-                tasks.changeTaskDescription(id, description);
+                tasksService.changeTaskDescription(id, description);
                 break;
             case 3:
                 System.out.println("Введите исполнителя:");
                 executor = scanner.nextLine();
-                tasks.changeTaskExecutor(id, executor);
+                tasksService.changeTaskExecutor(id, executor);
                 break;
             case 4:
                 System.out.println("Введите статус:");
                 System.out.println("1 - Сделано\n2-Выполняется сейчас\n3-Просрочено");
                 statusNumber = scanner.nextInt();
                 status = choiceStatus(statusNumber);
-                tasks.changeTaskStatus(id, status);
+                tasksService.changeTaskStatus(id, status);
                 break;
             case 5:
                 System.out.println("Введите имя:");
@@ -100,7 +98,7 @@ public class Menu {
                 statusNumber = scanner.nextInt();
                 status = choiceStatus(statusNumber);
 
-                tasks.changeTask(id, name, description, executor, status);
+                tasksService.changeTask(id, name, description, executor, status);
                 break;
             default:
                 throw new Exception("Введите число от 1 до 5 включительно");
@@ -111,14 +109,14 @@ public class Menu {
 
     /**
      * Удаление задачи
-     * @param tasks задачи
+     * @param tasksService задачи
      * @throws Exception Нет такой задачи
      */
-    public static void deleteTask(Tasks tasks) throws Exception{
-        showTasks(tasks);
+    public static void deleteTask(TasksService tasksService) throws Exception{
+        showTasks(tasksService);
         System.out.println("Введите код задачи");
         int id = scanner.nextInt();
-        tasks.deleteTaskById(id);
+        tasksService.deleteTaskById(id);
     }
 
     /**
@@ -147,11 +145,11 @@ public class Menu {
 
     /**
      * Выводит задачи
-     * @param tasks задачи
+     * @param tasksService задачи
      */
-    public static void showTasks(Tasks tasks) {
+    public static void showTasks(TasksService tasksService) {
         System.out.println("Вывожу задачи:");
-        System.out.println(tasks.toString());
+        System.out.println(tasksService.toString());
     }
 
 

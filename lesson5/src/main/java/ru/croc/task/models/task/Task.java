@@ -1,6 +1,6 @@
-package ru.croc.task.task;
+package ru.croc.task.models.task;
 
-import ru.croc.task.enums.Status;
+import ru.croc.task.models.enums.Status;
 
 import java.io.Serializable;
 

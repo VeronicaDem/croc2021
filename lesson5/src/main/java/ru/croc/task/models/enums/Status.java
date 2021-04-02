@@ -1,4 +1,4 @@
-package ru.croc.task.enums;
+package ru.croc.task.models.enums;
 
 /**
  * Статус задачи.

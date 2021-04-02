@@ -1,5 +1,5 @@
-import ru.croc.task.menu.Menu;
-import ru.croc.task.task.Tasks;
+import ru.croc.task.models.menu.Menu;
+import ru.croc.task.service.TasksService;
 
 import java.io.*;
 import java.util.Scanner;
@@ -11,7 +11,7 @@ public class main {
         File f = new File("db.txt");
         FileInputStream fileInputStream;
         ObjectInputStream objectInputStream;
-        Tasks tasks = new Tasks();
+        TasksService tasksService = new TasksService();
         try {
             if (f.length() == 0) {
                 f.createNewFile();
@@ -19,10 +19,10 @@ public class main {
             else {
                 fileInputStream = new FileInputStream("db.txt");
                 objectInputStream = new ObjectInputStream(fileInputStream);
-                tasks = (Tasks) objectInputStream.readObject();
+                tasksService = (TasksService) objectInputStream.readObject();
             }
         } catch(IOException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return;
         }
 
@@ -37,18 +37,18 @@ public class main {
             switch(choice) {
                 case 1:
                     try {
-                        Menu.deleteTask(tasks);
+                        Menu.deleteTask(tasksService);
                     }
                     catch (Exception e) {
                         System.out.println(e.getMessage());
                 }
                     break;
                 case 2:
-                    Menu.showTasks(tasks);
+                    Menu.showTasks(tasksService);
                     break;
                 case 3:
                     try {
-                        Menu.changeTask(tasks);
+                        Menu.changeTask(tasksService);
                     }
                     catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -56,7 +56,7 @@ public class main {
                     break;
                 case 4:
                     try {
-                        Menu.addTask(tasks);
+                        Menu.addTask(tasksService);
                     }
                     catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -73,7 +73,7 @@ public class main {
         FileOutputStream fileOutput;
         fileOutput = new FileOutputStream("db.txt");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutput);
-        objectOutputStream.writeObject(tasks);
+        objectOutputStream.writeObject(tasksService);
 
     }
 }
