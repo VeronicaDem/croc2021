@@ -1,0 +1,27 @@
+<films>
+    <film>
+        <title>Фильм 1</title>
+        <description>Описание 1</description>
+        <screenwriters>
+            <screenwriter name="Человек 1"/>
+            <screenwriter name="Человек 2"/>
+        </screenwriters>
+        <directors>
+            <director name="Человек 1"/>
+            <director name="Человек 3"/>
+        </directors>
+    </film>
+    <film>
+        <title>Фильм 2</title>
+        <description>Описание 2</description>
+        <screenwriters>
+            <screenwriter name="Человек 3"/>
+            <screenwriter name="Человек 2"/>
+        </screenwriters>
+        <directors>
+            <director name="Человек 2"/>
+            <director name="Человек 4"/>
+            <director name="Человек 3"/>
+        </directors>
+    </film>
+</films>
