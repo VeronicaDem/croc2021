@@ -1,10 +1,9 @@
-package ru.croc.models;
+package firstXml.model;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
+import javax.xml.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +37,12 @@ public class Film {
 
     }
 
+    public Film(String title, String description, ArrayList<Person> screenwriters, ArrayList<Person> directors) {
+        this.title = title;
+        this.description = description;
+        this.screenwriters = screenwriters;
+        this.directors = directors;
+    }
 
 
     public String getTitle() {
@@ -71,4 +76,5 @@ public class Film {
     public void setDirectors(List<Person> directors) {
         this.directors = directors;
     }
+
 }

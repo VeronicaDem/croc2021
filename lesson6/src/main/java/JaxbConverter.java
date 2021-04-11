@@ -22,7 +22,7 @@ public class JaxbConverter {
     public <T> T fromFileToObject(String filePath, Class<T> type) throws IOException{
         String xml = Files.lines(Paths.get(filePath)).reduce("", String::concat);
         return fromXml(xml,
-                    type);
+                type);
 
 
     }
@@ -56,6 +56,7 @@ public class JaxbConverter {
         final XmlMapper mapper = new XmlMapper();
         mapper.registerModule(new JaxbAnnotationModule()); // модуль jaxb
         mapper.enable(SerializationFeature.INDENT_OUTPUT); // форматирование вывода
+        mapper.setDefaultUseWrapper(false);
         return mapper;
     }
 }

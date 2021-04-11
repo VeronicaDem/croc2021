@@ -1,5 +1,6 @@
+package firstXml;
 
-import ru.croc.models.Film;
+import firstXml.model.Film;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +15,14 @@ public class Films {
     /**
      * Список фильмов.
      */
+
     @XmlElement(name="film")
     List<Film> films = new ArrayList<>();
     public Films() {
 
     }
     public Films(ArrayList<Film> films) {
-       this.films = films;
+        this.films = films;
     }
     public Films(List<Film> films) {
         this.films = films;

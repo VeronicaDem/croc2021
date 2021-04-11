@@ -1,4 +1,4 @@
-package ru.croc.models;
+package firstXml.model;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
@@ -9,8 +9,12 @@ public class Person {
     /**
      * Имя
      */
-    @XmlAttribute(name="name")
+    @XmlAttribute(name = "name")
     private String name;
+
+    public Person() {
+
+    }
 
     public Person(String name) {
         this.name = name;
