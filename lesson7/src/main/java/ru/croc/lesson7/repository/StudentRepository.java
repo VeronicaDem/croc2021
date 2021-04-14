@@ -1,5 +1,6 @@
 package ru.croc.lesson7.repository;
 
+import com.sun.security.jgss.GSSUtil;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import ru.croc.lesson7.model.Student;
 
@@ -114,5 +115,89 @@ public class StudentRepository {
             student = null;
         }
         return student;
+    }
+    /**
+     * Получить студента по id
+     * @param id id Студента
+     * @return студент
+     */
+    public Student showInfoById(int id) {
+        String sqlQuery = "SELECT id, fio, groupName, " +
+                "dateOfBirth, extracted, dateOfStart " + "FROM " + TABLE_NAME +
+                " WHERE id=?";
+        Student student = null;
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            student = new Student(
+                    rs.getInt("id"),
+                    rs.getString("fio"),
+                    rs.getInt("groupName"),
+                    rs.getDate("dateOfBirth").toLocalDate(),
+                    rs.getInt("extracted") == 1,
+                    rs.getDate("dateOfStart").toLocalDate());
+        } catch(Exception e) {
+            System.out.println("Ошибка выполнения запроса " + e.getMessage());
+        }
+        return student;
+    }
+    /**
+     * Удалить студента по id
+     * @param id id Студента
+     * @return состояние успешности удаления
+     */
+    public boolean deleteStudentById(int id) {
+        if(showInfoById(id) == null) {
+            System.out.println("Студента с id="+ id + " нет");
+            return false;
+        }
+        String sqlQuery = "DELETE FROM " + TABLE_NAME + " WHERE id =?";
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setInt(1, id);
+            statement.execute();
+            System.out.println("Запись удалена");
+            System.out.println("=========================");
+        } catch (Exception e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        }
+        if(showInfoById(id) == null) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Изменяет поля записи о студенте
+     * @param student студент с измененными полями
+     * @return измененный студент
+     */
+    public Student changeStudent(Student student) throws Exception {
+        if(showInfoById(student.getId()) == null) {
+            throw new Exception("Нет такого студента");
+        }
+        else {
+            String sqlQuery = "UPDATE " + TABLE_NAME + " SET fio=?, " +
+                                                             "groupName=?, " +
+                                                              "dateOfBirth=?," +
+                                                              "extracted=?," +
+                                                              "dateOfStart=?" +
+                              " WHERE id=?";
+            try (Connection connection = dataSource.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement(sqlQuery);
+                statement.setString(1, student.getFio());
+                statement.setInt(2, student.getGroup());
+                statement.setDate(3, Date.valueOf(student.getDateOfBirth()));
+                statement.setInt(4, student.isExtracted() ? 1: 0);
+                statement.setDate(5, Date.valueOf(student.getDateOfStart()));
+                statement.setInt(6, student.getId());
+                statement.executeUpdate();
+            }
+            catch(Exception e) {
+                System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+            }
+        }
+        return showInfoById(student.getId());
     }
 }

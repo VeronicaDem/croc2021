@@ -35,4 +35,29 @@ public class StudentService {
         Student addedStudent = repository.createNew(student);
         return addedStudent;
     }
+    /**
+     * Изменение студента
+     * @param student студент
+     * @return измененный студент
+     */
+    public Student changeStudent(Student student) throws Exception {
+        Student changedStudent = repository.changeStudent(student);
+        return changedStudent;
+    }
+    /**
+     * Удаление студента
+     * @param id id студента
+     * @return состояние успешности удаления
+     */
+    public boolean deleteStudent(int id) {
+        return repository.deleteStudentById(id);
+    }
+    /**
+     * Получение записи о студенте
+     * @param id id студента
+     * @return студент
+     */
+    public Student getStudentById(int id) {
+        return repository.showInfoById(id);
+    }
 }

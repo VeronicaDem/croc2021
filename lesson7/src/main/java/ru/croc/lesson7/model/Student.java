@@ -47,6 +47,7 @@ public class Student {
 
     public Student(int id, String fio, int group, LocalDate dateOfBirth,
                    boolean extracted, LocalDate dateOfStart) {
+        this.id = id;
         this.fio = fio;
         this.group = group;
         this.dateOfBirth = dateOfBirth;
@@ -58,7 +59,7 @@ public class Student {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
