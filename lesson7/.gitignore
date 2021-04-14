@@ -1,0 +1,4 @@
+.idea
+*.iml
+derby.log
+student_db
