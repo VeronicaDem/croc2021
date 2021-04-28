@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Провайдер для БД
+ */
 public class DataSourceProvider {
 
     /**
@@ -23,6 +26,11 @@ public class DataSourceProvider {
         loadProperties();
     }
 
+    /**
+     * Загружает property из application.properties
+     *
+     * @throws IOException
+     */
     private void loadProperties() throws IOException {
         Properties properties = new Properties();
         try {
@@ -37,6 +45,11 @@ public class DataSourceProvider {
         }
     }
 
+    /**
+     * Получить доступ к БД, авториазия в БД через application.properties
+     *
+     * @return датасорс
+     */
     public EmbeddedDataSource getDataSource() {
         if (dataSource == null) {
             dataSource = new EmbeddedDataSource();

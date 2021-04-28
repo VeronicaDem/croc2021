@@ -15,7 +15,7 @@ public class PersonRepository {
     /**
      * Имя таблицы.
      */
-    private static final String TABLE_NAME="person";
+    private static final String TABLE_NAME = "person";
     /**
      * Хранилище.
      */
@@ -25,6 +25,7 @@ public class PersonRepository {
         this.dataSource = dataSource;
         initTable();
     }
+
     /**
      * Метод инициализации БД.
      */
@@ -62,44 +63,47 @@ public class PersonRepository {
             System.out.println("=========================");
         }
     }
-        /**
-         * Метод поиска всех пациентов (людей).
-         * @return список всех пациентов
-         */
-        public List<Person> findAll() {
-            try(Connection connection = dataSource.getConnection()) {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(
-                        "SELECT * FROM " + TABLE_NAME);
-                List<Person> personList = new ArrayList<>();
-                while(resultSet.next()) {
-                    personList.add(
-                            new Person(
-                                    resultSet.getString("name"),
-                                    resultSet.getString("second_name"),
-                                    resultSet.getString("third_name"),
-                                    resultSet.getInt("id_person")
-                            )
-                    );
-                }
-                return personList;
-            } catch(Exception e) {
-                System.out.println("Ошибка выполнения запроса: " + e.getMessage());
-            }
-            return new ArrayList<>();
 
+    /**
+     * Метод поиска всех пациентов (людей).
+     *
+     * @return список всех пациентов
+     */
+    public List<Person> findAll() {
+        try (Connection connection = dataSource.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT * FROM " + TABLE_NAME);
+            List<Person> personList = new ArrayList<>();
+            while (resultSet.next()) {
+                personList.add(
+                        new Person(
+                                resultSet.getString("name"),
+                                resultSet.getString("second_name"),
+                                resultSet.getString("third_name"),
+                                resultSet.getInt("id_person")
+                        )
+                );
+            }
+            return personList;
+        } catch (Exception e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
         }
+        return new ArrayList<>();
+
+    }
+
     /**
      * Метод создания записи в БД о новом пациенте.
      *
      * @param person Пациент
      */
-    public Person createNew(Person person) throws Exception{
-        if(findInfoByFio(person.getName(), person.getSecondName(), person.getThirdName()) != null) {
-           throw new Exception("Такой пациент уже есть");
+    public Person createNew(Person person) throws Exception {
+        if (findInfoByFio(person.getName(), person.getSecondName(), person.getThirdName()) != null) {
+            throw new Exception("Такой пациент уже есть");
         }
         String sqlQuery = "INSERT INTO " + TABLE_NAME + " (name, second_name, third_name) " +
-                          "VALUES (?, ?, ?)";
+                "VALUES (?, ?, ?)";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, person.getName());
@@ -108,13 +112,15 @@ public class PersonRepository {
             statement.execute();
             System.out.println("Запись добавлена");
             System.out.println("=========================");
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
         }
         return findInfoByFio(person.getName(), person.getSecondName(), person.getThirdName());
     }
+
     /**
      * Получить пациента по id.
+     *
      * @param id id пациента
      * @return пациент
      */
@@ -123,7 +129,7 @@ public class PersonRepository {
                 "FROM " + TABLE_NAME +
                 " WHERE id_person=?";
         Person person = null;
-        try(Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
@@ -135,27 +141,29 @@ public class PersonRepository {
                     rs.getInt("id_person")
             );
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Ошибка выполнения запроса " + e.getMessage());
         }
         return person;
     }
+
     /**
      * Получить пациента по фио.
-     * @param name имя пациента
+     *
+     * @param name       имя пациента
      * @param secondName фамилия пациента
-     * @param thirdName отчество пациента
+     * @param thirdName  отчество пациента
      * @return пациент
      */
     public Person findInfoByFio(String name, String secondName, String thirdName) {
         String sqlQuery = "SELECT name, second_name, third_name, id_person  " +
-                          "FROM " + TABLE_NAME +
-                          " WHERE " +
-                          "name=? AND " +
-                          "second_name=? AND " +
-                          "third_name=?";
+                "FROM " + TABLE_NAME +
+                " WHERE " +
+                "name=? AND " +
+                "second_name=? AND " +
+                "third_name=?";
         Person person = null;
-        try(Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, name);
             statement.setString(2, secondName);
@@ -169,25 +177,27 @@ public class PersonRepository {
                     rs.getInt("id_person")
             );
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Ошибка выполнения запроса " + e.getMessage());
         }
         return person;
     }
+
     /**
      * Удалить человека по fio.
-     * @param name имя пациента.
+     *
+     * @param name       имя пациента.
      * @param secondName фамилия пациента.
-     * @param thirdName отчество пациента.
+     * @param thirdName  отчество пациента.
      * @return состояние успешности удаления
      */
     public boolean deletePersonByFio(String name, String secondName, String thirdName) {
-        if(findInfoByFio(name, secondName, thirdName) == null) {
+        if (findInfoByFio(name, secondName, thirdName) == null) {
             System.out.println(String.format("Нет пациента %s %s %s", name, secondName, thirdName));
             return false;
         }
         String sqlQuery = "DELETE FROM " + TABLE_NAME + " WHERE name=? AND second_name=? AND third_name=?";
-        try(Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, name);
             statement.setString(2, secondName);
@@ -195,23 +205,25 @@ public class PersonRepository {
             statement.execute();
             System.out.println("Запись удалена");
             System.out.println("=========================");
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Ошибка выполнения запроса " + e.getMessage());
         }
         return findInfoByFio(name, secondName, thirdName) == null;
     }
+
     /**
      * Удалить человека по id.
+     *
      * @param id id пациента
      * @return состояние успещности удаления
      */
     public boolean deletePersonById(int id) {
-        if(findInfoById(id) == null) {
+        if (findInfoById(id) == null) {
             System.out.println(String.format("Нет пациента с id = %s", id));
             return false;
         }
         String sqlQuery = "DELETE FROM " + TABLE_NAME + " WHERE id_person=?";
-        try(Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setInt(1, id);
             statement.execute();
@@ -222,32 +234,32 @@ public class PersonRepository {
         }
         return findInfoById(id) == null;
     }
+
     /**
      * Изменяет поля записи о пациента
+     *
      * @param person пациент
      * @return измененный пациент
      */
     public Person changePerson(Person person) throws Exception {
-        if(findInfoById(person.getIdPerson()) == null) {
+        if (findInfoById(person.getIdPerson()) == null) {
             throw new Exception(String.format("Нет пациента %s %s %s",
                     person.getName(),
                     person.getSecondName(),
                     person.getThirdName()));
-        }
-        else {
+        } else {
             String sqlQuery = "UPDATE " + TABLE_NAME + " SET name=?, " +
-                                                       "second_name=?," +
-                                                       "third_name=?" +
-                                                       " WHERE id_person=?";
-            try(Connection connection = dataSource.getConnection()) {
+                    "second_name=?," +
+                    "third_name=?" +
+                    " WHERE id_person=?";
+            try (Connection connection = dataSource.getConnection()) {
                 PreparedStatement statement = connection.prepareStatement(sqlQuery);
                 statement.setString(1, person.getName());
                 statement.setString(2, person.getSecondName());
                 statement.setString(3, person.getThirdName());
                 statement.setInt(4, person.getIdPerson());
                 statement.executeUpdate();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Ошибка выполнения запроса: " + e.getMessage());
             }
 

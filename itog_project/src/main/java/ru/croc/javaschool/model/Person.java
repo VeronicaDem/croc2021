@@ -26,10 +26,12 @@ public class Person {
         this.secondName = secondName;
         this.thirdName = thirdName;
     }
+
     public Person(String name, String secondName, String thirdName, int idPerson) {
         this(name, secondName, thirdName);
         this.idPerson = idPerson;
     }
+
     public int getIdPerson() {
         return idPerson;
     }

@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Информация о заболевании конкретного человека.
  */
-public class Corona {
+public class CoronaInfo {
     /**
      * id человека
      */
@@ -26,19 +26,22 @@ public class Corona {
      */
     private StatusCorona statusCorona;
 
-    public Corona(LocalDate date, StatusCorona statusCorona) {
+    public CoronaInfo(LocalDate date, StatusCorona statusCorona) {
         this.date = date;
         this.statusCorona = statusCorona;
     }
-    public Corona(int personId, LocalDate date, StatusCorona statusCorona) {
+
+    public CoronaInfo(int personId, LocalDate date, StatusCorona statusCorona) {
         this(date, statusCorona);
         this.personId = personId;
     }
-    public Corona(int personId, int coronaId, LocalDate date, StatusCorona statusCorona) {
+
+    public CoronaInfo(int personId, int coronaId, LocalDate date, StatusCorona statusCorona) {
         this(date, statusCorona);
         this.personId = personId;
         this.coronaId = coronaId;
     }
+
     public int getPersonId() {
         return personId;
     }
@@ -75,11 +78,11 @@ public class Corona {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Corona corona = (Corona) o;
-        return personId == corona.personId
-                && coronaId == corona.coronaId
-                && Objects.equals(date, corona.date)
-                && statusCorona == corona.statusCorona;
+        CoronaInfo coronaInfo = (CoronaInfo) o;
+        return personId == coronaInfo.personId
+                && coronaId == coronaInfo.coronaId
+                && Objects.equals(date, coronaInfo.date)
+                && statusCorona == coronaInfo.statusCorona;
     }
 
     @Override

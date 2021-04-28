@@ -1,32 +1,40 @@
 package ru.croc.javaschool.converter.model;
+
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+
 /**
  * Статистика.
  */
-@XmlRootElement(name="statistic")
-public class Statistic {
+@XmlRootElement(name = "statistic")
+public class StatisticDisease implements Serializable {
+    /**
+     * UID объекта
+     */
+    private static final long serialVersionUID = 1L;
     /**
      * Количество выздоровивших.
      */
-    @XmlElement(name="выздоровившие")
+    @XmlElement(name = "выздоровившие")
     private int countHealthy;
     /**
      * Количество заболевших.
      */
-    @XmlElement(name="заболевшие")
+    @XmlElement(name = "заболевшие")
     private int countDiseased;
     /**
      * Процентное соотношение выздоровивших к полному числу пациентов.
      */
-    @XmlElement(name="соотношение выздоровивших")
+    @XmlElement(name = "соотношение выздоровивших")
     private double percentage;
 
-    public Statistic(int countHealthy, int countDiseased, double percentage) {
+    public StatisticDisease(int countHealthy, int countDiseased, double percentage) {
         this.countHealthy = countHealthy;
         this.countDiseased = countDiseased;
         this.percentage = percentage;
     }
-    public Statistic() {
+
+    public StatisticDisease() {
 
     }
 

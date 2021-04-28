@@ -1,5 +1,5 @@
 .idea
 *.iml
 derby.log
-corona.db
+coronaInfo.db
 target
