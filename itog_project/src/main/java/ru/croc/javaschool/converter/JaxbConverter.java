@@ -30,7 +30,7 @@ public class JaxbConverter {
      */
     public void writeXmlToFile(String xml) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("xml.txt"), "utf-8"))) {
+                new FileOutputStream("statistics.xml"), "utf-8"))) {
             writer.write(xml);
         }
         catch (Exception e){

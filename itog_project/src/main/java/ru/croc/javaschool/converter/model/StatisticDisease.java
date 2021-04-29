@@ -25,7 +25,7 @@ public class StatisticDisease implements Serializable {
     /**
      * Процентное соотношение выздоровивших к полному числу пациентов.
      */
-    @XmlElement(name = "соотношение выздоровивших")
+    @XmlElement(name = "соотношение_выздоровивших")
     private double percentage;
 
     public StatisticDisease(int countHealthy, int countDiseased, double percentage) {
